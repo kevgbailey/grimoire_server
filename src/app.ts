@@ -1,17 +1,27 @@
-import express from 'express';
-import { setRoutes } from './routes/index';
-import { errorHandler } from './middleware/index';
+import express, { Application } from 'express';
+import { GameController } from './controllers/GameController';
+import { AuthController } from './controllers/AuthController';
+import { authenticateToken } from './middleware/AuthRequest';
+import * as dotenv from 'dotenv';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+dotenv.config(); // Add this to load environment variables
+
+const app: Application = express();
+const port: number = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-setRoutes(app);
+// Initialize controllers
+const gameController = new GameController();
+const authController = new AuthController();
 
-app.use(errorHandler);
+// Public auth routes
+app.use('/api/auth', authController.router);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+// Protected game routes
+app.use('/api/game', authenticateToken, gameController.router);
+
+app.listen(port, (): void => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
