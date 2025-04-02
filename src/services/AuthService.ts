@@ -31,7 +31,7 @@ export class AuthService {
 
   public async getAuthToken(
     username: string,
-    password: string
+    password: string,
   ): Promise<string> {
     const isValid = await this.validateLogin(username, password);
     if (!isValid) {
@@ -41,8 +41,8 @@ export class AuthService {
     const user = await this.getUser(username);
     const token = jwt.sign(
       {
+        userId: user.id,
         username: user.username,
-        password: user.password,
       },
       this.JWT_SECRET,
       {
@@ -61,11 +61,11 @@ export class AuthService {
         throw new Error("User already exists");
     }
 
-    // Generate token for the newly registered user
+    const user = await this.getUser(username);
     const token = jwt.sign(
         {
+            userId: user.id,
             username: username,
-            password: hashedPassword,
         },
         this.JWT_SECRET,
         {

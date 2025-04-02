@@ -1,0 +1,59 @@
+{
+  "users": [],
+  "games": [
+    {
+      "game_id": 129978,
+      "storyteller_id": 8,
+      "night": 0,
+      "status": "active"
+    }
+  ],
+  "players": [
+    {
+      "player_id": 1,
+      "game_id": 129978,
+      "name": "Emma Latt",
+      "role_id": 2,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 2,
+      "game_id": 129978,
+      "name": "Joar Holtan",
+      "role_id": 18,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 3,
+      "game_id": 129978,
+      "name": "Simon Sønderland",
+      "role_id": 22,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 4,
+      "game_id": 129978,
+      "name": "Alberto Lopez",
+      "role_id": 1,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 5,
+      "game_id": 129978,
+      "name": "Olivia Lévesque",
+      "role_id": 3,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    }
+  ],
+  "statusEffects": []
+}

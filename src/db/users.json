@@ -1,1 +1,44 @@
-[{"username":"testuser","password":"$2b$10$xzByxcfikiHqKTiFiZFmHOdYI0mqEZEu3uRlB7ii73iRLSYnyRN.2"}]
+[
+  {
+    "id": 1,
+    "username": "testuser@test.com",
+    "password": "$2b$10$Ch3.U6fM0fVOUKn3IiEqi.84JXJYcV1s6OfmU7wG9mj99ptSwwNtm",
+    "authToken": null
+  },
+  {
+    "id": 3,
+    "username": "testuse@test.com",
+    "password": "$2b$10$URNnmjUAqbeOO4B4pnbO0eoq6AoTsRR40rSNw5Scl.QQyn3S7IF5G",
+    "authToken": null
+  },
+  {
+    "id": 4,
+    "username": "testue@test.com",
+    "password": "$2b$10$FtHFfBZVNLiZ.8yXU.rbcOnYngmUonaXnLiwVIat7FZZTyQHPaZmC",
+    "authToken": null
+  },
+  {
+    "id": 5,
+    "username": "testusr@test.com",
+    "password": "$2b$10$.hZzg1bEJf5fU/CmK06fG.Wlt4V5AmqUGi2PzgpBAuWMSnSjziLGW",
+    "authToken": null
+  },
+  {
+    "id": 6,
+    "username": "epicsaucemoneyswag",
+    "password": "$2b$10$9qeb4o.hElLCANEdadakfuryozkMDuOGJtkeMU7dRk8DQKjWZUlOe",
+    "authToken": null
+  },
+  {
+    "id": 7,
+    "username": "emoney",
+    "password": "$2b$10$vD2C2gpSXlbPyiQWjAVFJ.sDddH3yq9qrzzZxrGQk.84KVE9LchYW",
+    "authToken": null
+  },
+  {
+    "id": 8,
+    "username": "test",
+    "password": "$2b$10$mAisfEsj7mJa22ZoHkF6Ne.SjxaiJ1xRlLUU4dhZOYaxvaYO0iluq",
+    "authToken": null
+  }
+]
