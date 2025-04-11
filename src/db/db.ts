@@ -3,6 +3,7 @@ import * as path from 'path';
 import { Game, Player, StatusEffect, User } from '../models/interfaces';
 
 interface DatabaseSchema {
+    roles: any;
     users: User[];
     games: Game[];
     players: Player[];
@@ -29,22 +30,29 @@ export class JsonDB {
             const data = await fs.readFile(this.dbPath, 'utf8');
             const parsed = JSON.parse(data) as DatabaseSchema;
             
-            // Validate the structure
             if (!this.isValidDatabaseSchema(parsed)) {
                 throw new Error('Invalid database schema');
             }
             
             return parsed;
         } catch (error) {
-            // Initialize empty database if file doesn't exist
-            const emptyDB: DatabaseSchema = {
-                users: [],
-                games: [],
-                players: [],
-                statusEffects: []
-            };
-            await this.writeDB(emptyDB);
-            return emptyDB;
+            // Add logging
+            console.error('Error reading database:', error);
+            
+            // Only initialize if file doesn't exist
+            if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+                const emptyDB: DatabaseSchema = {
+                    roles: [],
+                    users: [],
+                    games: [],
+                    players: [],
+                    statusEffects: []
+                };
+                await this.writeDB(emptyDB);
+                return emptyDB;
+            }
+            
+            throw error; // Re-throw other errors
         }
     }
 

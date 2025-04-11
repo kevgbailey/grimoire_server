@@ -11,6 +11,13 @@ export enum GameStatus {
 //     POISONED = 'poisoned'
 // }
 
+export interface GameState {
+    game: Game;
+    players: Player[];
+    roles: Role[]
+    statusEffects: StatusEffect[];
+}
+
 export interface User {
     user_id: number;
     email: string;
@@ -22,6 +29,8 @@ export interface Game {
     storyteller_id: number;  // References User.user_id
     night: number;
     status: GameStatus;
+    startDate: string;  // Changed from Date to string for JSON compatibility
+    numPlayers: number;  // Add this line
 }
 
 export interface Player {
@@ -35,7 +44,7 @@ export interface Player {
 }
 
 export interface Role {
-    role_id: number;
+    id: number;           // Changed from role_id to id to match GameRoles
     name: string;
     description: string;
     night_order: number | null;

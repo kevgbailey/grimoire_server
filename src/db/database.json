@@ -1,55 +1,129 @@
 {
+  "roles": [],
   "users": [],
   "games": [
     {
-      "game_id": 129978,
-      "storyteller_id": 8,
+      "game_id": 567591,
+      "storyteller_id": 10,
       "night": 0,
-      "status": "active"
+      "status": "active",
+      "startDate": "2025-04-11T05:19:09.243Z",
+      "numPlayers": 5
+    },
+    {
+      "game_id": 771005,
+      "storyteller_id": 11,
+      "night": 0,
+      "status": "active",
+      "startDate": "2025-04-11T05:20:56.912Z",
+      "numPlayers": 7
     }
   ],
   "players": [
     {
       "player_id": 1,
-      "game_id": 129978,
-      "name": "Emma Latt",
-      "role_id": 2,
+      "game_id": 567591,
+      "name": "Don Byrd",
+      "role_id": 3,
       "isDead": false,
       "drunkRole": null,
       "hasVote": true
     },
     {
       "player_id": 2,
-      "game_id": 129978,
-      "name": "Joar Holtan",
-      "role_id": 18,
+      "game_id": 567591,
+      "name": "Malthe Jensen",
+      "role_id": 4,
       "isDead": false,
       "drunkRole": null,
       "hasVote": true
     },
     {
       "player_id": 3,
-      "game_id": 129978,
-      "name": "Simon Sønderland",
-      "role_id": 22,
+      "game_id": 567591,
+      "name": "Ralph Knight",
+      "role_id": 11,
       "isDead": false,
       "drunkRole": null,
       "hasVote": true
     },
     {
       "player_id": 4,
-      "game_id": 129978,
-      "name": "Alberto Lopez",
-      "role_id": 1,
+      "game_id": 567591,
+      "name": "Nestor Duarte",
+      "role_id": 18,
       "isDead": false,
       "drunkRole": null,
       "hasVote": true
     },
     {
       "player_id": 5,
-      "game_id": 129978,
-      "name": "Olivia Lévesque",
+      "game_id": 567591,
+      "name": "Miroslav Dupuis",
+      "role_id": 22,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 1,
+      "game_id": 771005,
+      "name": "Dunja Ilić",
+      "role_id": 4,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 2,
+      "game_id": 771005,
+      "name": "Hans-Jürgen Lex",
       "role_id": 3,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 3,
+      "game_id": 771005,
+      "name": "Otto Wiita",
+      "role_id": 10,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 4,
+      "game_id": 771005,
+      "name": "Nayeli Cedillo",
+      "role_id": 11,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 5,
+      "game_id": 771005,
+      "name": "Jesse Kokko",
+      "role_id": 12,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 6,
+      "game_id": 771005,
+      "name": "Brett Welch",
+      "role_id": 18,
+      "isDead": false,
+      "drunkRole": null,
+      "hasVote": true
+    },
+    {
+      "player_id": 7,
+      "game_id": 771005,
+      "name": "Herman Marshall",
+      "role_id": 22,
       "isDead": false,
       "drunkRole": null,
       "hasVote": true

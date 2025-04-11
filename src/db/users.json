@@ -40,5 +40,23 @@
     "username": "test",
     "password": "$2b$10$mAisfEsj7mJa22ZoHkF6Ne.SjxaiJ1xRlLUU4dhZOYaxvaYO0iluq",
     "authToken": null
+  },
+  {
+    "id": 9,
+    "username": "kgbailey",
+    "password": "$2b$10$qVWtLFDAuGZfxBiheS.Jk.6HLKzYmL09QikqN/hSZXFZkREnDH0Qu",
+    "authToken": null
+  },
+  {
+    "id": 10,
+    "username": "username",
+    "password": "$2b$10$pKEkeEzKnKgavleIY.K1.OEy/2.lWzfrk68Pu6vSHOuy/6YMyZTQG",
+    "authToken": null
+  },
+  {
+    "id": 11,
+    "username": "kevin",
+    "password": "$2b$10$jnOnwREkFF3lKWJkmzGxU.6WHiSZxlYCZDXuCFRbjg9kJPC2PHo9i",
+    "authToken": null
   }
 ]

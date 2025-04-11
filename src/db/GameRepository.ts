@@ -8,7 +8,9 @@ import {
   Player,
   StatusEffect,
   Role,
+  GameState,
 } from "../models/interfaces";
+import { GameRoles } from "../middleware/roles";
 
 class GameRepository {
   private gameDataPath: string;
@@ -30,18 +32,10 @@ class GameRepository {
     }
   }
 
-  public async getGamesByUserId(
-    userId: number,
-    status?: GameStatus
-  ): Promise<number[]> {
+  public async getGamesByUserId(userId: number): Promise<Game[]> {
     const db = await this.db.readDB();
-    let games = db.games.filter((game) => game.storyteller_id === userId);
-
-    if (status) {
-      games = games.filter((game) => game.status === status);
-    }
-
-    return games.map((game) => game.game_id);
+    const games = db.games.filter((game) => game.storyteller_id === userId);
+    return games
   }
 
   public async storeGame(
@@ -53,14 +47,59 @@ class GameRepository {
     // Read current database state
     const db = await this.db.readDB();
 
-    // Add new data to respective collections
-    db.games.push(game);
-    db.players.push(...players);
-    db.statusEffects.push(...statusEffects);
+    // Add new data to respective collections while preserving existing data
+    db.games = [...db.games, game];
+    db.players = [...db.players, ...players];
+    db.statusEffects = [...db.statusEffects, ...statusEffects];
 
     // Write entire updated database back to file
     await this.db.writeDB(db);
   }
+  public async getGameById(gameId: number): Promise<Game> {
+    const db = await this.db.readDB();
+    const game = db.games.find((game) => game.game_id === gameId);
+    if (!game) {
+      throw new Error(`Game with ID ${gameId} not found`);
+    }
+    return game;
+  }
+
+  public async getPlayersByGameId(gameId: number): Promise<Player[]> {
+    const db = await this.db.readDB();
+    const players = db.players.filter((player) => player.game_id === gameId);
+    return players;
+  }
+
+  public async getRolesByGameId(gameId: number): Promise<Role[]> {
+    // Get all players for this game
+    const players = await this.getPlayersByGameId(gameId);
+    // Get unique role IDs from these players
+    const roleIds = [...new Set(players.map(player => player.role_id))];
+    // Get roles from GameRoles singleton
+    const gameRoles = GameRoles.getInstance();
+    const roles: Role[] = [];
+    
+    // Safely collect all valid roles
+    roleIds.forEach(id => {
+      const role = gameRoles.getRoleById(id);
+      if (role) {
+        roles.push(role);
+      }
+    });
+    
+    return roles;
+  }
+
+  public async getStatusEffectsByGameId(gameId: number): Promise<StatusEffect[]> {
+    const db = await this.db.readDB();
+    // Get all players for this game first
+    const players = await this.getPlayersByGameId(gameId);
+    // Get their player IDs
+    const playerIds = players.map(player => player.player_id);
+    // Filter status effects for these players
+    return db.statusEffects.filter(effect => playerIds.includes(effect.player_id));
+  }
+  
 }
 
 export default GameRepository;
