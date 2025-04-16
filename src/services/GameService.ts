@@ -12,6 +12,21 @@ export class GameService {
         this.gameRepository = new GameRepository();
     }
 
+    public async getTestUsers(numOfUsers: number): Promise<String[]> {
+        try {
+            const response = await fetch(`https://randomuser.me/api/?results=${numOfUsers}`);
+            if (response.ok) {
+            const data = await response.json();
+            return data.results.map((user: any) => user.name.first + ' ' + user.name.last);
+            } else {
+            throw new Error('Failed to fetch test users');
+            }
+        } catch (error) {
+            console.error('Error fetching test users:', error);
+            throw error;
+        }
+    }
+
     public async getRoles(): Promise<RoleCategories> {
         return this.gameRoles.getAllRoles();
     }

@@ -1,6 +1,20 @@
 import * as fs from 'node:fs/promises';
 import * as path from 'path';
 import { Game, Player, StatusEffect, User } from '../models/interfaces';
+import { Client } from 'pg';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false, // required for AWS RDS without full cert chain
+    },
+});
+
+client.connect()
+  .then(() => console.log("✅ Connected to AWS RDS PostgreSQL"))
+  .catch(err => console.error("❌ Connection error:", err));
 
 interface DatabaseSchema {
     roles: any;
