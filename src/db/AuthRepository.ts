@@ -1,24 +1,11 @@
 import User from "../types/user";
-import * as fs from "node:fs/promises";
-import * as path from "path";
+import { getPrismaClient } from "./db";
 
 class AuthRepository {
-  private userAuthPath: string;
+  constructor() {}
 
-  constructor() {
-    this.userAuthPath = path.resolve(__dirname, "../db/users.json");
-    this.initializeUsersFile();
-  }
 
-  private async initializeUsersFile(): Promise<void> {
-    try {
-      await fs.access(this.userAuthPath);
-    } catch {
-      // File doesn't exist, create directory and file
-      await fs.mkdir(path.dirname(this.userAuthPath), { recursive: true });
-      await fs.writeFile(this.userAuthPath, JSON.stringify([]));
-    }
-  }
+
 
   public async getAuthToken(
     username: string,
@@ -30,31 +17,24 @@ class AuthRepository {
     return "auth_token";
   }
 
-  private async getNextId(): Promise<number> {
-    const users = await this.getUsers();
-    if (users.length === 0) return 1;
-    const validIds = users.map(user => user.id).filter(id => id !== undefined);
-    return validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
-  }
+
 
   public async addUser(username: string, password: string): Promise<boolean> {
     try {
-      const users = await this.getUsers();
       const userExists = await this.isUserExist(username);
 
       if (userExists) {
         return false;
       }
 
-      const newUser: User = {
-        id: await this.getNextId(),
-        username,
-        password,
-        authToken: null
-      };
-
-      users.push(newUser);
-      await fs.writeFile(this.userAuthPath, JSON.stringify(users, null, 2));
+      const prisma = getPrismaClient();
+      await prisma.user.create({
+        data: {
+          email: username, // Using email field for username in Prisma schema
+          password
+        }
+      });
+      
       return true;
     } catch (error) {
       console.error("Error adding user:", error);
@@ -64,27 +44,76 @@ class AuthRepository {
 
   private async getUsers(): Promise<User[]> {
     try {
-      const data = await fs.readFile(this.userAuthPath, "utf8");
-      return JSON.parse(data);
+      const prisma = getPrismaClient();
+      const dbUsers = await prisma.user.findMany();
+      
+      // Map Prisma User model to our User type
+      return dbUsers.map(user => ({
+        id: user.id,
+        username: user.email, // Using email field for username
+        password: user.password,
+        authToken: null
+      }));
     } catch (error) {
-      console.error("error reading file", error);
+      console.error("Error fetching users:", error);
       return [];
     }
   }
 
   public async getUserById(id: number): Promise<User | undefined> {
-    const users = await this.getUsers();
-    return users.find(user => user.id === id);
+    try {
+      const prisma = getPrismaClient();
+      const user = await prisma.user.findUnique({
+        where: { id }
+      });
+      
+      if (!user) return undefined;
+      
+      return {
+        id: user.id,
+        username: user.email,
+        password: user.password,
+        authToken: null
+      };
+    } catch (error) {
+      console.error("Error fetching user by ID:", error);
+      return undefined;
+    }
   }
 
   private async isUserExist(username: string): Promise<boolean> {
-    const users = await this.getUsers();
-    return users.some((user: User) => user.username === username);
+    try {
+      const prisma = getPrismaClient();
+      const user = await prisma.user.findUnique({
+        where: { email: username } // Using email field for username
+      });
+      
+      return !!user;
+    } catch (error) {
+      console.error("Error checking user existence:", error);
+      return false;
+    }
   }
 
   public async getUserByUsername(username: string): Promise<User | undefined> {
-    const users = await this.getUsers();
-    return users.find(user => user.username === username);
+    try {
+      const prisma = getPrismaClient();
+      const user = await prisma.user.findUnique({
+        where: { email: username } // Using email field for username
+      });
+      
+      if (!user) return undefined;
+      
+      return {
+        id: user.id,
+        username: user.email,
+        password: user.password,
+        authToken: null
+      };
+    } catch (error) {
+      console.error("Error fetching user by username:", error);
+      return undefined;
+    }
   }
 }
 
