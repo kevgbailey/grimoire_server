@@ -30,6 +30,6 @@ app.use('/api/auth', authController.router);
 // Protected game routes
 app.use('/api/game', authenticateToken, gameController.router);
 
-app.listen(port, (): void => {
+app.listen(port, '0.0.0.0', (): void => {
     console.log(`Server is running on http://localhost:${port}`);
 });
