@@ -26,7 +26,7 @@ class GameRepository {
         storyteller_id: game.storytellerId,
         night: game.night,
         status: game.status as GameStatus,
-        startDate: game.startDate.toISOString(),
+        startDate: game.startDate.toISOString(), // Convert Date to string
         numPlayers: game.numPlayers
       }));
     } catch (error) {
@@ -49,8 +49,8 @@ class GameRepository {
         data: {
           storytellerId: game.storyteller_id,
           night: game.night,
-          status: game.status as GameStatus,
-          startDate: game.startDate,
+          status: game.status,
+          startDate: new Date(game.startDate), // Convert string to Date
           numPlayers: game.numPlayers,
           // Create players in the same transaction
           players: {
@@ -99,7 +99,7 @@ class GameRepository {
         storyteller_id: game.storytellerId,
         night: game.night,
         status: game.status as GameStatus,
-        startDate: game.startDate,
+        startDate: game.startDate.toISOString(), // Convert Date to string
         numPlayers: game.numPlayers
       };
     } catch (error) {
