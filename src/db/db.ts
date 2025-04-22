@@ -26,7 +26,7 @@ export class DB {
         // Connect to the database when the instance is created
         this.prisma.$connect()
             .then(() => console.log("✅ Connected to PostgreSQL via Prisma"))
-            .catch(err => console.error("❌ Prisma connection error:", err));
+            .catch((err: unknown) => console.error("❌ Prisma connection error:", err));
     }
 
     public static getInstance(): DB {

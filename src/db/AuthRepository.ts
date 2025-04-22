@@ -48,7 +48,7 @@ class AuthRepository {
       const dbUsers = await prisma.user.findMany();
       
       // Map Prisma User model to our User type
-      return dbUsers.map(user => ({
+      return dbUsers.map((user: { id: number; email: string; password: string }) => ({
         id: user.id,
         username: user.email, // Using email field for username
         password: user.password,

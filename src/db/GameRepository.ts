@@ -14,7 +14,7 @@ class GameRepository {
   public async getGamesByUserId(userId: number): Promise<Game[]> {
     try {
       const prisma = getPrismaClient();
-      const games = await prisma.game.findMany({
+      const games: { id: number; storytellerId: number; night: number; status: string; startDate: Date; numPlayers: number }[] = await prisma.game.findMany({
         where: {
           storytellerId: userId
         }
@@ -26,7 +26,7 @@ class GameRepository {
         storyteller_id: game.storytellerId,
         night: game.night,
         status: game.status as GameStatus,
-        startDate: game.startDate,
+        startDate: game.startDate.toISOString(),
         numPlayers: game.numPlayers
       }));
     } catch (error) {

@@ -5,7 +5,8 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "noImplicitAny": false
   },
   "include": ["src", "src/generated/prisma"]
 }
