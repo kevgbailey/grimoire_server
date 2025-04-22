@@ -1,6 +1,7 @@
 {
   "name": "express-web-server",
   "version": "1.0.0",
+  "type": "module",
   "description": "A simple Express web server built with TypeScript.",
   "main": "src/app.ts",
   "scripts": {
