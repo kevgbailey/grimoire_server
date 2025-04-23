@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define GameStatus enum to match the one in interfaces.ts
+enum GameStatus {
+  active
+  completed
+  canceled
+}
+
+// User model matches User interface
+model User {
+  id       Int    @id @default(autoincrement()) @map("user_id")
+  email    String @unique
+  password String @map("pass")
+  games    Game[] @relation("StorytellersGames")
+}
+
+// Game model matches Game interface
+model Game {
+  id            Int        @id @default(autoincrement()) @map("game_id")
+  storyteller   User       @relation("StorytellersGames", fields: [storytellerId], references: [id])
+  storytellerId Int        @map("storyteller_id")
+  night         Int
+  status        GameStatus
+  startDate     String
+  numPlayers    Int
+  players       Player[]
+}
+
+// Player model matches Player interface
+model Player {
+  id            Int            @id @default(autoincrement()) @map("player_id")
+  game          Game           @relation(fields: [gameId], references: [id])
+  gameId        Int            @map("game_id")
+  name          String
+  roleId        Int            @map("role_id")
+  isDead        Boolean
+  drunkRole     Int?
+  hasVote       Boolean
+  statusEffects StatusEffect[]
+}
+
+// Role model matches Role interface
+model Role {
+  id               Int     @id @default(autoincrement())
+  name             String
+  description      String
+  nightOrder       Int?    @map("night_order")
+  firstNightOrder  Int?    @map("first_night_order")
+}
+
+// StatusEffect model matches StatusEffect interface
+model StatusEffect {
+  id        Int    @id @default(autoincrement())
+  player    Player @relation(fields: [playerId], references: [id])
+  playerId  Int    @map("player_id")
+  name      String
+}

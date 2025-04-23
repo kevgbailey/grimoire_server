@@ -37,8 +37,13 @@ express-web-server
    ```bash
    npm install
    ```
+3. **Database Stuff**
+   ```
+   npx prisma db push #apply schema to DB
+   npx prisma generate #regenerate client
+   ```
 
-3. **Run the application:**
+5. **Run the application:**
    ```bash
    npm start
    ```

@@ -1,33 +1,19 @@
 import { GameRoles, RoleCategories } from "../middleware/roles";
 import AuthRepository from "../db/AuthRepository";
-import * as fs from "node:fs/promises";
-import * as path from "path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export class AuthService {
-  private userAuthPath: string;
   private authRepository: AuthRepository;
   private readonly SALT_ROUNDS = 10;
   private readonly JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
   constructor() {
-    this.userAuthPath = path.resolve(__dirname, "../db/users.json");
-    this.initializeUsersFile();
     this.authRepository = new AuthRepository();
   }
 
-  private async initializeUsersFile(): Promise<void> {
-    try {
-      await fs.access(this.userAuthPath);
-    } catch {
-      // File doesn't exist, create directory and file
-      await fs.mkdir(path.dirname(this.userAuthPath), { recursive: true });
-      await fs.writeFile(this.userAuthPath, JSON.stringify([]));
-    }
-  }
 
   public async getAuthToken(
     username: string,
@@ -76,42 +62,17 @@ export class AuthService {
     return token;
   }
 
-  private async getUsers(): Promise<any[]> {
-    try {
-      const data = await fs.readFile(this.userAuthPath, "utf8");
-      return JSON.parse(data);
-    } catch (error) {
-      console.error("error reading file", error);
-      return [];
-    }
-  }
-
   private async isUserExist(username: string): Promise<boolean> {
-    // Implement logic to check if user exists
-    try {
-      const users = await this.getUsers();
-      if (
-        users.find((user: { username: string }) => user.username === username)
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.error("error reading file", error);
-      return false;
-    }
+    const user = await this.authRepository.getUserByUsername(username);
+    return !!user;
   }
 
-  private async getUser(username: string): Promise<any> {
-    // Implement logic to get user details
+  public async getUser(username: string): Promise<any> {
     try {
-      const users = await this.getUsers();
-      return users.find(
-        (user: { username: string }) => user.username === username
-      );
+      const user = await this.authRepository.getUserByUsername(username);
+      return user || null;
     } catch (error) {
-      console.error("error reading file", error);
+      console.error("Error fetching user:", error);
       return null;
     }
   }
@@ -121,6 +82,7 @@ export class AuthService {
     password: string
   ): Promise<boolean> {
     // Implement logic to validate login credentials
+    console.log("Validating login for user:", username);
     try {
       const user = await this.getUser(username);
       if (user) {
@@ -129,7 +91,7 @@ export class AuthService {
         return false;
       }
     } catch (error) {
-      console.error("error reading file", error);
+      console.error("Error during login validation:", error);
       return false;
     }
   }

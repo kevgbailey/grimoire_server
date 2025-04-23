@@ -18,8 +18,20 @@ export class GameController {
         this.router.post('/store_game', this.storeGame.bind(this));
         this.router.get('/get_games', this.getGamesByUserId.bind(this));
         this.router.get('/get_game/:gameId', this.getGameById.bind(this));
+        this.router.get('/get_testusers/:numOfUsers', this.getTestUsers.bind(this));
         //this.router.get('/get_games/:userId', this.getUserGames.bind(this));
         // Add more routes as needed
+    }
+
+    private async getTestUsers(req: Request, res: Response): Promise<void> {
+        try {
+            const numOfUsers = parseInt(req.params.numOfUsers);
+            const users = await this.gameService.getTestUsers(numOfUsers);
+            res.status(200).json(users);
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+            res.status(500).json({ message: errorMessage });
+        }
     }
 
     private async getRoles(req: Request, res: Response): Promise<void> {
