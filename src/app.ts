@@ -11,7 +11,7 @@ const app: Application = express();
 const port: number = 3000;
 
 app.use(cors({
-    origin: '*', // Vite's default port
+    origin: ['https://d3o323iha7apq5.cloudfront.net', "https://localhost:5173"], // Vite's default port
     credentials: true,
     methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
     allowedHeaders: ['Content-Type', 'Authorization']
